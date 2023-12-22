@@ -1,16 +1,17 @@
-package org.ecomm.ecommweb.controller;
+package org.ecomm.ecommweb.rest.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("test")
-public class FirstController {
+@RequestMapping("health-check")
+public class HealthCheckController {
 
     @GetMapping
-    public String test() {
-        return "Hellow world";
+    public String healthCheck() {
+
+        return "Ecomm-web is running";
     }
 
 }
