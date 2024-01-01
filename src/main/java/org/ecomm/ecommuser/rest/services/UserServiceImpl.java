@@ -24,6 +24,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User getBasicUserInfo(){
-
+     return null;
   }
 }
