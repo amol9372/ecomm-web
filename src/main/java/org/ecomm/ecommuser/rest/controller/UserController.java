@@ -3,8 +3,6 @@ package org.ecomm.ecommuser.rest.controller;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.stream.Stream;
-
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.ecomm.ecommuser.rest.request.AddUserRequest;
@@ -24,16 +22,12 @@ public class UserController {
   public ResponseEntity<Object> createAppUser(@RequestBody AddUserRequest request, HttpServletRequest httpServletRequest) {
     var user = userService.createAppUser(request);
 
-
-//    Stream.of(httpServletRequest.getHeaderNames()).forEach(header -> {
-//       log.info("header is ::: {}", header.nextElement());
-//    });
-
     Iterator<String> iterator = httpServletRequest.getHeaderNames().asIterator();
 
     while (iterator.hasNext()) {
-      log.info("header is {}", iterator.next());
-      log.info("header value is {}",httpServletRequest.getHeader(iterator.next()));
+      String name = iterator.next();
+      log.info("header is {}", name);
+      log.info("header value is {}",httpServletRequest.getHeader(name));
     }
 
     log.info("name header is {}", httpServletRequest.getHeaders("name"));
