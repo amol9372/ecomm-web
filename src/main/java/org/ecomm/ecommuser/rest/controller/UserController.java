@@ -24,15 +24,13 @@ public class UserController {
 
     Iterator<String> iterator = httpServletRequest.getHeaderNames().asIterator();
 
+    log.info("Query string ::: {}",httpServletRequest.getQueryString());
+
     while (iterator.hasNext()) {
       String name = iterator.next();
       log.info("header is {}", name);
       log.info("header value is {}",httpServletRequest.getHeader(name));
     }
-
-    log.info("name header is {}", httpServletRequest.getHeaders("name"));
-
-    log.info("Request is ::: {}", httpServletRequest.getHeaderNames());
 
     return ResponseEntity.created(URI.create("/user")).body(Map.of("id", user.getId()));
   }
