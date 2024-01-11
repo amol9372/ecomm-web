@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.ecomm.ecommuser.rest.request.AddUserRequest;
 import org.ecomm.ecommuser.rest.services.UserService;
+import org.ecomm.ecommuser.rest.request.AddUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,22 +16,30 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class UserController {
 
-  @Autowired UserService userService;
+  @Autowired
+  UserService userService;
 
   @PostMapping
-  public ResponseEntity<Object> createAppUser(@RequestBody AddUserRequest request, HttpServletRequest httpServletRequest) {
+  public ResponseEntity<Object> createAppUser(
+      @RequestBody AddUserRequest request, HttpServletRequest httpServletRequest) {
     var user = userService.createAppUser(request);
 
     Iterator<String> iterator = httpServletRequest.getHeaderNames().asIterator();
 
-    log.info("Query string ::: {}",httpServletRequest.getQueryString());
+    log.info("Query string ::: {}", httpServletRequest.getQueryString());
 
     while (iterator.hasNext()) {
       String name = iterator.next();
       log.info("header is {}", name);
-      log.info("header value is {}",httpServletRequest.getHeader(name));
+      log.info("header value is {}", httpServletRequest.getHeader(name));
     }
 
     return ResponseEntity.created(URI.create("/user")).body(Map.of("id", user.getId()));
+  }
+
+  @GetMapping
+  public ResponseEntity<Object> getBasicUserInfo() {
+    var user = userService.getBasicUserInfo();
+    return ResponseEntity.ok(user);
   }
 }

@@ -18,6 +18,8 @@ public class ErrorCodes {
 
   public static final String INVALID_REQUEST_PARAMS = "invalid_request_parameters";
 
+  public static final String MISSING_EMAIL_HEADER = "missing_email_header";
+
   public static final String CONSTRAINT_VIOLATION_EXCEPTION = "constraint_violation_exception";
 
   public static final String USER_ALREADY_EXISTS = "user_already_exists";
@@ -43,5 +45,6 @@ public class ErrorCodes {
         "User already exists with the same email, please use a different email");
     errorCodesMap.put(S3_EXCEPTION, "An exception occurred in S3");
     errorCodesMap.put(MISSING_PARTNER_HEADER, "Partner header is missing");
+    errorCodesMap.put(MISSING_EMAIL_HEADER, "Email header is missing");
   }
 }

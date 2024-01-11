@@ -1,6 +1,7 @@
 # Compiled class file
 *.class
 
+target
 # Log file
 *.log
 
@@ -25,5 +26,4 @@ replay_pid*
 ecomm-web/mvnw
 ecomm-web/mvnw.cmd
 ecomm-web/.mvn/wrapper/maven-wrapper.properties
-ecomm-web/.mvn/wrapper/maven-wrapper.jar
 ecomm-web/.mvn/wrapper/maven-wrapper.jar

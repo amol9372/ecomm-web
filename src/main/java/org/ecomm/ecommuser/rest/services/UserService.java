@@ -10,4 +10,6 @@ public interface UserService {
     User createAppUser(AddUserRequest request);
 
     User getBasicUserInfo();
+
+    User getBasicUserInfo(String email);
 }

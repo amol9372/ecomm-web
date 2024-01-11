@@ -20,5 +20,6 @@ public class User extends BaseModel {
     int age;
     String gender;
     UserPreferences preferences;
+    String role;
 
 }

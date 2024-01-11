@@ -2,6 +2,7 @@ package org.ecomm.ecommuser.persistance.entity.user;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,4 +37,7 @@ public class EUser extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   UserStatus status;
+
+  @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+  EUserRole role;
 }
