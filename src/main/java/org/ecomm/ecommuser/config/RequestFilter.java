@@ -31,39 +31,33 @@ public class RequestFilter extends OncePerRequestFilter {
 
   private final List<String> permittedUrls = List.of("/user");
 
-  @Autowired
-  UserService userService;
+  @Autowired UserService userService;
 
   @Override
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    String requestMethod = request.getMethod();
+    // String requestMethod = request.getMethod();
+    String userEmail = request.getHeader("x-auth0-user-email");
+    if (isEmpty(userEmail)) {
+      log.error("User email header missing");
 
-    if (request.getRequestURI().contains("/user") && requestMethod.equals("POST")) {
-      filterChain.doFilter(request, response);
-    } else {
-      String userEmail = request.getHeader("email");
-      if (isEmpty(userEmail)) {
-        log.error("User email header missing");
-
-        var errorResponse =
-            ErrorResponse.builder()
-                .code(ErrorCodes.MISSING_EMAIL_HEADER)
-                .message(Constants.UNAUTHORIZED_USER)
-                .build();
-        throw new UnauthorizedUserException(HttpStatus.UNAUTHORIZED, errorResponse);
-      }
-
-      User basicUserInfo = userService.getBasicUserInfo(userEmail);
-      ObjectMapper objectMapper = new ObjectMapper();
-
-      // Convert Java object to JSON string
-      String userString = objectMapper.writeValueAsString(basicUserInfo);
-      MDC.put("user", userString);
-
-      filterChain.doFilter(request, response);
+      var errorResponse =
+          ErrorResponse.builder()
+              .code(ErrorCodes.MISSING_EMAIL_HEADER)
+              .message(Constants.UNAUTHORIZED_USER)
+              .build();
+      throw new UnauthorizedUserException(HttpStatus.UNAUTHORIZED, errorResponse);
     }
+
+    User basicUserInfo = userService.getBasicUserInfo(userEmail);
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    // Convert Java object to JSON string
+    String userString = objectMapper.writeValueAsString(basicUserInfo);
+    MDC.put("user", userString);
+
+    filterChain.doFilter(request, response);
   }
 }

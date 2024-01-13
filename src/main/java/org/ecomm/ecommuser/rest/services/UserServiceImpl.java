@@ -14,7 +14,7 @@ import org.ecomm.ecommuser.persistance.repository.UserRepository;
 import org.ecomm.ecommuser.persistance.repository.UserRoleRepository;
 import org.ecomm.ecommuser.rest.builder.UserBuilder;
 import org.ecomm.ecommuser.rest.model.User;
-import org.ecomm.ecommuser.rest.request.AddUserRequest;
+import org.ecomm.ecommuser.rest.request.CreateUserRequest;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   @Override
-  public User createAppUser(AddUserRequest request) {
+  public User createAppUser(CreateUserRequest request) {
 
     log.info("Incoming request ::: {}", request.toString());
 

@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @ToString
-public class AddUserRequest {
+public class CreateUserRequest {
 
     String firstName;
     String lastName;

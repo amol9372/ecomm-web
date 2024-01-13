@@ -6,7 +6,7 @@ import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.ecomm.ecommuser.rest.services.UserService;
-import org.ecomm.ecommuser.rest.request.AddUserRequest;
+import org.ecomm.ecommuser.rest.request.CreateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<Object> createAppUser(
-      @RequestBody AddUserRequest request, HttpServletRequest httpServletRequest) {
+          @RequestBody CreateUserRequest request, HttpServletRequest httpServletRequest) {
     var user = userService.createAppUser(request);
 
     Iterator<String> iterator = httpServletRequest.getHeaderNames().asIterator();

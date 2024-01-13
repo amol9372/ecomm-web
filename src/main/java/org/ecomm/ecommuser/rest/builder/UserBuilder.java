@@ -3,13 +3,13 @@ package org.ecomm.ecommuser.rest.builder;
 import org.ecomm.ecommuser.persistance.entity.user.EUser;
 import org.ecomm.ecommuser.persistance.entity.user.UserStatus;
 import org.ecomm.ecommuser.rest.model.User;
-import org.ecomm.ecommuser.rest.request.AddUserRequest;
+import org.ecomm.ecommuser.rest.request.CreateUserRequest;
 
 import java.time.LocalDateTime;
 
 public class UserBuilder {
 
-  public static EUser with(AddUserRequest request) {
+  public static EUser with(CreateUserRequest request) {
     return EUser.builder()
         .firstName(request.getFirstName())
         .lastName(request.getLastName())
