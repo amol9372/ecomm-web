@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.ecomm.ecommuser.rest.model.User;
 import org.ecomm.ecommuser.rest.services.UserService;
 import org.ecomm.ecommuser.rest.request.CreateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class UserController {
 
   @Autowired
   UserService userService;
+
+  @GetMapping("{email}")
+  public ResponseEntity<User> getUserByEmail(@PathVariable String email){
+     return ResponseEntity.ok(userService.getBasicUserInfo(email));
+  }
+
 
   @PostMapping
   public ResponseEntity<Object> createAppUser(

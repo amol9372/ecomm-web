@@ -4,7 +4,9 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -38,26 +40,32 @@ public class RequestFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    // String requestMethod = request.getMethod();
-    String userEmail = request.getHeader("x-auth0-user-email");
-    if (isEmpty(userEmail)) {
-      log.error("User email header missing");
+    if (Objects.nonNull(request.getHeader("service"))) {
+      filterChain.doFilter(request, response);
+    } else {
+      String userEmail = request.getHeader("x-auth0-user-email");
+      if (isEmpty(userEmail)) {
+        log.error("User email header missing");
 
-      var errorResponse =
-          ErrorResponse.builder()
-              .code(ErrorCodes.MISSING_EMAIL_HEADER)
-              .message(Constants.UNAUTHORIZED_USER)
-              .build();
-      throw new UnauthorizedUserException(HttpStatus.UNAUTHORIZED, errorResponse);
+        var errorResponse =
+            ErrorResponse.builder()
+                .code(ErrorCodes.MISSING_EMAIL_HEADER)
+                .message(Constants.UNAUTHORIZED_USER)
+                .build();
+        throw new UnauthorizedUserException(HttpStatus.UNAUTHORIZED, errorResponse);
+      }
+
+      putUserInMDC(userEmail);
+      filterChain.doFilter(request, response);
     }
+  }
 
+  private void putUserInMDC(String userEmail) throws JsonProcessingException {
     User basicUserInfo = userService.getBasicUserInfo(userEmail);
     ObjectMapper objectMapper = new ObjectMapper();
 
     // Convert Java object to JSON string
     String userString = objectMapper.writeValueAsString(basicUserInfo);
     MDC.put("user", userString);
-
-    filterChain.doFilter(request, response);
   }
 }

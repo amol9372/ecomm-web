@@ -1,14 +1,15 @@
 package org.ecomm.ecommuser.exception;
 
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Data
+@Getter
 public class BaseException extends RuntimeException {
 
-    private HttpStatus status;
-    private ErrorResponse errorResponse;
-    private String[] args;
+    HttpStatus status;
+    ErrorResponse errorResponse;
+    String[] args;
 
 
     protected BaseException(HttpStatus status,ErrorResponse errorResponse) {

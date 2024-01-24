@@ -12,4 +12,5 @@ public interface UserService {
     User getBasicUserInfo();
 
     User getBasicUserInfo(String email);
+
 }

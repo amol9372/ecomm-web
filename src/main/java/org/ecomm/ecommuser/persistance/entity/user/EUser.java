@@ -1,5 +1,6 @@
 package org.ecomm.ecommuser.persistance.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -38,6 +39,7 @@ public class EUser extends BaseEntity {
   @Enumerated(EnumType.STRING)
   UserStatus status;
 
-  @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+  @JsonManagedReference
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   EUserRole role;
 }

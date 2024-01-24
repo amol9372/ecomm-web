@@ -19,4 +19,5 @@ public class Address extends BaseModel {
   String state;
   String postalCode;
   String country;
+  boolean defaultAddress;
 }

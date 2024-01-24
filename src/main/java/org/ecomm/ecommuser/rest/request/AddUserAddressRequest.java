@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class AddUserAddressRequest {
 
-  Integer userId;
   boolean defaultAddress;
   String name;
   String streetAddress;

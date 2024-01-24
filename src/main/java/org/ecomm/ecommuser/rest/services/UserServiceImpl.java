@@ -15,6 +15,7 @@ import org.ecomm.ecommuser.persistance.repository.UserRoleRepository;
 import org.ecomm.ecommuser.rest.builder.UserBuilder;
 import org.ecomm.ecommuser.rest.model.User;
 import org.ecomm.ecommuser.rest.request.CreateUserRequest;
+import org.ecomm.ecommuser.utils.Utility;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,11 +27,9 @@ import java.util.Optional;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-  @Autowired
-  UserRepository userRepository;
+  @Autowired UserRepository userRepository;
 
-  @Autowired
-  UserRoleRepository userRoleRepository;
+  @Autowired UserRoleRepository userRoleRepository;
 
   @Transactional
   @Override
@@ -40,27 +39,14 @@ public class UserServiceImpl implements UserService {
 
     EUser eUser = UserBuilder.with(request);
     EUser savedUser = userRepository.save(eUser);
-    userRoleRepository.save(EUserRole.builder().name(UserRole.USER).user(savedUser).build());
+    userRoleRepository.save(EUserRole.builder().role(UserRole.USER).user(savedUser).build());
 
     return User.builder().id(savedUser.getId()).build();
   }
 
   @Override
   public User getBasicUserInfo() {
-    return getLoggedInUser();
-  }
-
-  private static User getLoggedInUser() {
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    User user = null;
-    try {
-      user = objectMapper.readValue(MDC.get("user"), User.class);
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
-    }
-
-    return user;
+    return Utility.getLoggedInUser();
   }
 
   @Override
@@ -74,7 +60,7 @@ public class UserServiceImpl implements UserService {
                 new UserNotFound(
                     HttpStatus.UNAUTHORIZED,
                     ErrorResponse.builder()
-                        .code(ErrorCodes.MISSING_EMAIL_HEADER)
+                        .code(ErrorCodes.USER_DOES_NOT_EXIST)
                         .message("No user exists with the email")
                         .build()));
 

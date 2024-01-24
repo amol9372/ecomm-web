@@ -1,5 +1,6 @@
 package org.ecomm.ecommuser.persistance.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,11 @@ import org.ecomm.ecommuser.persistance.entity.BaseEntity;
 @Table(name = "user_roles")
 public class EUserRole extends BaseEntity {
 
-  @Enumerated(EnumType.STRING)
-  UserRole name;
 
+  @Enumerated(EnumType.STRING)
+  UserRole role;
+
+  @JsonBackReference
   @OneToOne
   @JoinColumn(name = "user_id")
   EUser user;

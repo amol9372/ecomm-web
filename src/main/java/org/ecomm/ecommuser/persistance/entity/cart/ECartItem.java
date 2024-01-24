@@ -19,6 +19,9 @@ public class ECartItem extends BaseEntity {
   @JoinColumn(name = "cart_id")
   ECart cart;
 
+  @Column(name = "variant_id")
+  Integer variantId;
+
   @Column(name = "product_id")
   Integer productId;
 
