@@ -41,6 +41,9 @@ public class RequestFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     if (Objects.nonNull(request.getHeader("service"))) {
+
+      String email = request.getHeader("email");
+      putUserInMDC(email);
       filterChain.doFilter(request, response);
     } else {
       String userEmail = request.getHeader("x-auth0-user-email");

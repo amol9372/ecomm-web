@@ -27,15 +27,15 @@ public class AddressServiceImpl implements AddressService {
 
   @Autowired UserAddressRepository userAddressRepository;
 
-  @Autowired
-  AddressRepository addressRepository;
+  @Autowired AddressRepository addressRepository;
 
   @Override
   public void createAddress(AddUserAddressRequest request) {
 
     User user = Utility.getLoggedInUser();
 
-    EAddress eAddress = EAddress.builder()
+    EAddress eAddress =
+        EAddress.builder()
             .streetAddress(request.getStreetAddress())
             .postalCode(request.getPostalCode())
             .state(request.getState())
@@ -89,5 +89,26 @@ public class AddressServiceImpl implements AddressService {
                     .defaultAddress(item.isDefaultAddress())
                     .build())
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Address getDefaultAddress() {
+    User user = Utility.getLoggedInUser();
+
+    EAddress address =
+        userAddressRepository
+            .findByUserIdAndDefaultAddress(user.getId(), Boolean.TRUE)
+            .orElseThrow()
+            .getAddress();
+
+    return Address.builder()
+        .state(address.getState())
+        .streetAddress(address.getStreetAddress())
+        .id(address.getId())
+        .name(address.getName())
+        .city(address.getCity())
+        .country(address.getCountry())
+        .postalCode(address.getPostalCode())
+        .build();
   }
 }

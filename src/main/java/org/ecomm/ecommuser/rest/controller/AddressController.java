@@ -29,4 +29,10 @@ public class AddressController {
          return ResponseEntity.ok(addresses);
     }
 
+    @GetMapping("default")
+    public ResponseEntity<Address> defaultAddress(){
+        var address = addressService.getDefaultAddress();
+        return ResponseEntity.ok(address);
+    }
+
 }

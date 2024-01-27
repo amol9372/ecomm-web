@@ -12,4 +12,7 @@ spring:
 
 logging:
   level:
-    root: debug
+    root: info
+
+host:
+  url: ${HOST_URL}

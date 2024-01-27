@@ -13,4 +13,5 @@ public interface AddressService {
 
     List<Address> listAddresses();
 
+    Address getDefaultAddress();
 }
